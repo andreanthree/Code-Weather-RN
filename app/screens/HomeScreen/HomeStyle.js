@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 import { COLOR_PRIMARY } from '../../resources/theme';
 
-const SplashStyle = StyleSheet.create({
+const HomeStyle = StyleSheet.create({
   container: {
     alignItems: 'center',
     flex: 1,
@@ -13,4 +13,4 @@ const SplashStyle = StyleSheet.create({
   },
 });
 
-export default SplashStyle;
+export default HomeStyle;

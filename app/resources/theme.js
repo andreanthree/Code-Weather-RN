@@ -13,3 +13,5 @@ export const COLOR_PRIMARY = '#3369EE';
 export const COLOR_SECONDARY = '#3369EE';
 export const COLOR_FONT_PRIMARY = '#242B46';
 export const COLOR_FONT_SECONDARY = '#5E6066';
+export const COLOR_WHITE = '#FFFFFF';
+export const COLOR_BORDER = '#E5E8ED';
