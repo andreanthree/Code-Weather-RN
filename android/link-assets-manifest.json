@@ -1,0 +1,21 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/ActionSansBold.otf",
+      "sha1": "e80d7cf0c08846a68b3f844af918ff7079c3cc25"
+    },
+    {
+      "path": "assets/fonts/ActionSansLight.otf",
+      "sha1": "31dcb8f6cda7b1242198414f83bb0b90198c958c"
+    },
+    {
+      "path": "assets/fonts/ActionSansMedium.otf",
+      "sha1": "1170ae2b01146aba40be6197fcdfdfa6692fbf89"
+    },
+    {
+      "path": "assets/fonts/ActionSansRegular.otf",
+      "sha1": "c1332423615e091f0fb38ffa9f98bf979d73c27a"
+    }
+  ]
+}
