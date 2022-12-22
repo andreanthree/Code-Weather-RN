@@ -8,7 +8,7 @@ export const Header = ({
   titleCustom,
   showLeft = true,
   customLeft,
-  customRight = true,
+  customRight,
 }) => {
   return (
     <View style={HeaderStyle.container}>
@@ -23,6 +23,9 @@ export const Header = ({
           <></>
         )}
         <TextWidget label={title} weight="medium" />
+      </View>
+      <View style={{}}>
+        {customRight || <></>}
       </View>
     </View>
   );
