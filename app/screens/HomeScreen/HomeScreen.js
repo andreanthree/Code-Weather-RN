@@ -72,10 +72,7 @@ const HomeScreen = ({daily, forecast, config, navigation}) => {
             />
             <View>
               <TextWidget
-                label={`${convertTemperature(
-                  data?.main?.temp,
-                  currentTemperature,
-                )}°${currentTemperature}`}
+                label={`${weatherInfo.name}`}
                 weight="medium"
                 size="b2"
               />
