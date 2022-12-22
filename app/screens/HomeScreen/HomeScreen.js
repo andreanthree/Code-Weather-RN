@@ -22,7 +22,7 @@ import ListItemStyle from '../../components/ListItem/ListItemStyle';
 import {connect} from 'react-redux';
 
 const HomeScreen = ({daily, forecast, config, navigation}) => {
-  const [indexselectedWeather, setindexselectedWeather] = useState(0);
+  const [indexselectedWeather, setindexselectedWeather] = useState(-1);
   const currentTemperature = config.temperature;
   const {data, loading: loadingDaily} = daily;
   let weatherInfo = loadingDaily ? {} : data.weather[0];

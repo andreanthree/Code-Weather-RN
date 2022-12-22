@@ -13,15 +13,18 @@ const initialState = {
     data: [],
     loading: false,
     isError: false,
-    keyword:'',
+    keyword: '',
   },
   config: {
     temperature: 'C',
     latitude: -6.2293867,
     longitude: 106.6894304,
     locationName: '',
-    wind:'m/s',
-    pressure:'inHg',
+    wind: 'm/s',
+    pressure: 'inHg',
+    precipitation: 'mm',
+    distance: 'km',
+    timeFormat: '24-Hour',
   },
 };
 export const UPDATE_DATA_DAILY = 'UPDATE_DATA_DAILY';

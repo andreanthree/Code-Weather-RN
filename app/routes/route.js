@@ -15,6 +15,7 @@ function Route() {
         initialRouteName="SplashScreen"
         screenOptions={{
           headerShown: false,
+          animation: 'slide_from_right',
         }}>
         <Stack.Screen name="SplashScreen" component={SplashScreen} />
         <Stack.Screen name="HomeScreen" component={HomeScreen} />

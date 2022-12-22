@@ -31,7 +31,6 @@ const SettingScreen = ({navigation, config, updateConfigData}) => {
                         onPress={() => {
                           let tmpConfig = config;
                           tmpConfig[`${item.keyConfig}`] = el.id;
-                          console.log(tmpConfig);
                           updateConfigData(tmpConfig);
                         }}
                         style={[

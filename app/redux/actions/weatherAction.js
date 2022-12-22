@@ -35,7 +35,6 @@ export const getDailyData = () => {
 
     try {
       const responseAPI = await ENDPOINT.getDaily(params);
-      console.log('responseAPI', responseAPI);
 
       if (responseAPI.status == 200) {
         await dispatch(
@@ -54,7 +53,6 @@ export const getDailyData = () => {
         );
       }
     } catch (error) {
-      console.log(error);
       dispatch(
         updateStateDaily({
           loading: false,
@@ -81,7 +79,6 @@ export const getForeCastData = () => {
 
     try {
       const responseAPI = await ENDPOINT.getForecast(params);
-      console.log('responseAPI', responseAPI);
 
       if (responseAPI.status == 200) {
         await dispatch(
@@ -100,7 +97,6 @@ export const getForeCastData = () => {
         );
       }
     } catch (error) {
-      console.log(error);
       dispatch(
         updateStateForecast({
           loading: false,
@@ -127,7 +123,6 @@ export const getLocationData = (keyword = '') => {
 
     try {
       const responseAPI = await ENDPOINT.getGeocoding(params);
-      console.log('responseAPI', responseAPI);
 
       if (responseAPI.status == 200) {
         await dispatch(
@@ -146,7 +141,6 @@ export const getLocationData = (keyword = '') => {
         );
       }
     } catch (error) {
-      console.log(error);
       dispatch(
         updateStateLocation({
           loading: false,

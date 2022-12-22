@@ -21,10 +21,7 @@ const fetchData = async (url, params={}, customHeaders={}) => {
     'Content-Type': 'application/json',
     ...customHeaders,
   };
-  console.log(url);
-  console.log(params);
   const response = await axios(url, {...params}, headers);
-  console.log(response);
 
   return response;
 };
