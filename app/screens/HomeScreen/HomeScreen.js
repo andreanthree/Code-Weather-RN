@@ -72,7 +72,7 @@ const HomeScreen = ({daily, forecast, config, navigation}) => {
             />
             <View>
               <TextWidget
-                label={`${weatherInfo.name}`}
+                label={`${weatherInfo.main}`}
                 weight="medium"
                 size="b2"
               />
