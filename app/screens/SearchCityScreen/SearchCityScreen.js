@@ -1,25 +1,19 @@
-import React, {useState} from 'react';
-import {FlatList, TextInput, TouchableOpacity, View} from 'react-native';
+import React from 'react';
+import {FlatList, TextInput, View} from 'react-native';
 import {Header} from '../../components/Header/Header';
 import SearchCityStyle from './SearchCityStyle';
 import {TextWidget} from '../../components/TextWidget';
 import {ImageWidget} from '../../components/ImageWidget';
-import {COLOR_BLACK, COLOR_GREY, COLOR_WHITE} from '../../resources/theme';
-import {
-  convertTemperature,
-  formatDate,
-  getWeatherIcon,
-} from '../../utils/helper';
+import {COLOR_BLACK} from '../../resources/theme';
+import {getFlagIcon} from '../../utils/helper';
 import {ListItem} from '../../components/ListItem/ListItem';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import ListItemStyle from '../../components/ListItem/ListItemStyle';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
   getLocationData,
   updateConfigData,
 } from '../../redux/actions/weatherAction';
-import {UPDATE_DATA_CONFIG} from '../../redux/reducers/weatherReducer';
 
 const SearchCityScreen = ({
   navigation,
@@ -27,7 +21,7 @@ const SearchCityScreen = ({
   loadLocation,
   updateConfigData,
 }) => {
-  const {data, loading, error} = location;
+  const {data, loading, keyword} = location;
   return (
     <View style={SearchCityStyle.container}>
       <Header
@@ -39,6 +33,8 @@ const SearchCityScreen = ({
               onSubmitEditing={event => {
                 loadLocation(event.nativeEvent.text);
               }}
+              autoFocus
+              placeholder="Search city"
             />
           </View>
         }
@@ -55,32 +51,58 @@ const SearchCityScreen = ({
         showLeft={false}
       />
 
-      <View style={SearchCityStyle.wrapperInfoForecast}>
-        <FlatList
-          data={data}
-          showsVerticalScrollIndicator={false}
-          renderItem={({item, index}) => {
-            const title = `${item.name}, ${item.state}, ${item.country}`;
+      <FlatList
+        data={data}
+        refreshing={loading}
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={() => {
+          if (loading) {
             return (
-              <ListItem
-                key={index}
-                title={title}
-                // customStyleContainer={{
-                //   paddingVertical: 8,
-                // }}
-                onPress={async () => {
-                  await updateConfigData({
-                    latitude: item.lat,
-                    longitude: item.lon,
-                    locationName: title,
-                  });
-                  navigation.navigate('SplashScreen');
-                }}
-              />
+              <View style={SearchCityStyle.wrapperHeaderFlatlist}>
+                <TextWidget label="Loading . . ." weight="bold" />
+              </View>
             );
-          }}
-        />
-      </View>
+          } else if (data.length == 0 && keyword != '') {
+            return (
+              <View style={SearchCityStyle.wrapperHeaderFlatlist}>
+                <TextWidget label="Empty Data" weight="bold" />
+                <TextWidget label="please try with another keyword" size="l1" />
+              </View>
+            );
+          }
+          return <></>;
+        }}
+        // contentContainerStyle={{alignItems:'center'}}
+        renderItem={({item, index}) => {
+          const title = `  ${item.name}, ${item.state}, ${item.country}`;
+          return (
+            <ListItem
+              key={index}
+              title={title}
+              // customStyleContainer={{
+              //   paddingVertical: 8,
+              // }}
+              customLeft={
+                <ImageWidget
+                  source={{
+                    uri: getFlagIcon(item.country),
+                  }}
+                  width={26}
+                  height={26}
+                />
+              }
+              onPress={async () => {
+                await updateConfigData({
+                  latitude: item.lat,
+                  longitude: item.lon,
+                  locationName: title,
+                });
+                navigation.navigate('SplashScreen');
+              }}
+            />
+          );
+        }}
+      />
     </View>
   );
 };

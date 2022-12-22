@@ -120,7 +120,8 @@ export const getLocationData = (keyword = '') => {
     await dispatch(
       updateStateLocation({
         loading: true,
-        data: {},
+        keyword,
+        data: [],
       }),
     );
 

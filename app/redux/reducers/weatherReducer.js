@@ -11,8 +11,9 @@ const initialState = {
   },
   locationData: {
     data: [],
-    loading: true,
+    loading: false,
     isError: false,
+    keyword:'',
   },
   config: {
     temperature: 'C',

@@ -19,15 +19,20 @@ const SearchCityStyle = StyleSheet.create({
     backgroundColor: COLOR_GREY,
     borderRadius: 25,
     width: widthByScreen(80),
-    height: 32,
+    height: 46,
     flexDirection:'row',
     alignItems:'center'
   },
   inputSearch: {
     width: '80%',
-    height: 32,
+    height: 46,
     marginLeft: 8,
   },
+  wrapperHeaderFlatlist:{
+    width:'100%',
+    paddingVertical: SIZE_PADDING,
+    alignItems:'center',
+  }
 });
 
 export default SearchCityStyle;

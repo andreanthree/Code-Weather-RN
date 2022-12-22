@@ -108,15 +108,15 @@ const HomeScreen = ({daily, forecast, config, navigation}) => {
         />
         <View style={HomeStyle.wrapperChart}></View>
         <View style={HomeStyle.wrapperInfoWind}>
-          {renderInfoWind('Wind', data.wind.speed)}
+          {renderInfoWind('Wind', `${data.wind.speed}m/s`)}
           {renderInfoWind('Himidity', `${data.main.humidity} %`)}
-          {renderInfoWind('UV Index', data.wind.speed)}
+          {renderInfoWind('UV Index', '-')}
           {renderInfoWind('Pressure', `${data.main.pressure}inHg`)}
           {renderInfoWind(
             'Visibility',
             `${Number(data.visibility / 1000).toFixed(2)}km`,
           )}
-          {renderInfoWind('Dew point', `${data.main.pressure}inHg`)}
+          {renderInfoWind('Dew point', `-`)}
         </View>
         <FlatList
           data={forecast.data}
@@ -258,7 +258,7 @@ const HomeScreen = ({daily, forecast, config, navigation}) => {
         <ListItem
           title="Propability of Precipitation"
           showIconRight={false}
-          infoRight={selectedWeather?.pop}
+          infoRight={'-'}
         />
         <ListItem
           title="Wind"
@@ -275,11 +275,7 @@ const HomeScreen = ({daily, forecast, config, navigation}) => {
           showIconRight={false}
           infoRight={`${selectedWeather?.main.humidity}%`}
         />
-        <ListItem
-          title="Uv Index"
-          showIconRight={false}
-          infoRight={selectedWeather?.pop}
-        />
+        <ListItem title="Uv Index" showIconRight={false} infoRight={'-'} />
       </View>
     );
   };

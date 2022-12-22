@@ -18,6 +18,10 @@ const ListItemStyle = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  wrapperLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
 });
 
 export default ListItemStyle;

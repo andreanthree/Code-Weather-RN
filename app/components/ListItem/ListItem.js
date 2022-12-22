@@ -9,16 +9,20 @@ export const ListItem = ({
   title = '',
   infoRight = '',
   icon = '',
+  customLeft,
   customRight,
   showIconRight = true,
   onPress = () => {},
-  customStyleContainer={},
+  customStyleContainer = {},
 }) => {
   return (
     <TouchableOpacity
       onPress={onPress}
       style={[ListItemStyle.container, customStyleContainer]}>
-      <TextWidget label={title} weight="regular" size="b1" />
+      <View style={ListItemStyle.wrapperLeft}>
+        {customLeft || <></>}
+        <TextWidget label={title} weight="regular" size="b1" />
+      </View>
       {customRight || (
         <View style={ListItemStyle.wrapperRight}>
           <TextWidget label={infoRight} weight="regular" size="b1" />
