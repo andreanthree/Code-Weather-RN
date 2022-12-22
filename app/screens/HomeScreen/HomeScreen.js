@@ -309,6 +309,15 @@ const HomeScreen = ({daily, forecast, config, navigation}) => {
             />
           </TouchableOpacity>
         }
+        customRight={
+          <Ionicons.Button
+            name="settings-outline"
+            size={20}
+            color={COLOR_FONT_PRIMARY}
+            backgroundColor="transparent"
+            onPress={() => {}}
+          />
+        }
       />
 
       <View style={HomeStyle.wrapperInfoForecast}>

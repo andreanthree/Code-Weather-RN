@@ -14,7 +14,7 @@ const HeaderStyle = StyleSheet.create({
     borderBottomWidth: 1,
   },
   containerLeft: {
-    width: widthByScreen(80),
+    width: widthByScreen(85),
     flexDirection: 'row',
     alignItems: 'center',
   },
