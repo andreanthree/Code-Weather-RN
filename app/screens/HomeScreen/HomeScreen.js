@@ -10,9 +10,10 @@ import {formatDate, getWeatherIcon} from '../../utils/helper';
 import {ListItem} from '../../components/ListItem/ListItem';
 import {widthByScreen} from '../../utils/dimensions';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import ListItemStyle from '../../components/ListItem/ListItemStyle';
 
 const HomeScreen = ({}) => {
-  const [selectedWeather, setselectedWeather] = useState();
+  const [indexselectedWeather, setindexselectedWeather] = useState(0);
   const data = dataDaily;
   let weatherInfo = data.weather[0] || {};
 
@@ -29,31 +30,28 @@ const HomeScreen = ({}) => {
     dataForecast.list.forEach((element, index) => {
       let dtConvert = new Date(element.dt * 1000);
       let currentDate = formatDate(dtConvert, 'ddd MMM DD');
-      if (index == 0) {
+      let findIndex = data.findIndex(el => el['dateFormat'] == currentDate);
+      console.log(findIndex);
+      if (findIndex == -1) {
         data.push({
           ...element,
           date: dtConvert,
+          dateFormat: currentDate,
+          child: [element],
         });
       } else {
-        let beforeDate = formatDate(
-          new Date(dataForecast.list[index - 1].dt * 1000),
-          'ddd MMM DD',
-        );
-        console.log(currentDate, beforeDate);
-        if (currentDate != beforeDate) {
-          data.push({
-            ...element,
-            date: dtConvert,
-          });
-        }
+        data[findIndex]['child'].push(element);
       }
     });
-    console.log(data);
     return data;
   };
   const HeaderComponent = () => {
     return (
-      <View style={HomeStyle.containerContent}>
+      <View
+        style={[
+          HomeStyle.containerContent,
+          {paddingBottom: indexselectedWeather != -1 ? 84 : 0},
+        ]}>
         <View style={HomeStyle.infoHeader}>
           <View style={HomeStyle.row}>
             <ImageWidget
@@ -143,10 +141,16 @@ const HomeScreen = ({}) => {
             renderItem={({item, index}) => {
               return (
                 <TouchableOpacity
+                  onPress={() => {
+                    setindexselectedWeather(index);
+                  }}
                   style={[
                     HomeStyle.wrapperItemTabDate,
                     {
-                      backgroundColor: COLOR_GREY,
+                      backgroundColor:
+                        index == indexselectedWeather
+                          ? COLOR_GREY
+                          : COLOR_WHITE,
                     },
                   ]}>
                   <TextWidget
@@ -168,10 +172,80 @@ const HomeScreen = ({}) => {
             size={22}
             backgroundColor={'transparent'}
             onPress={() => {
-              setselectedWeather({});
+              setindexselectedWeather(-1);
             }}
           />
         </View>
+        {renderViewSelectedWeather()}
+      </View>
+    );
+  };
+  const renderViewSelectedWeather = () => {
+    if (indexselectedWeather == -1) {
+      return <></>;
+    }
+    const selectedWeather = dataForecast.list[indexselectedWeather];
+    return (
+      <View style={HomeStyle.wrapperSelectedWeather}>
+        <View style={HomeStyle.wrapperSelectedWeatherHeader}>
+          <View>
+            <TextWidget
+              label={selectedWeather.weather[0].main}
+              weight="bold"
+              size="b1"
+            />
+            <TextWidget
+              label={selectedWeather.weather[0].description}
+              weight="medium"
+              size="l1"
+            />
+          </View>
+          <View style={ListItemStyle.wrapperRight}>
+            <TextWidget
+              label={`${selectedWeather.main.humidity} / ${selectedWeather.main.temp}°F`}
+              weight="regular"
+              size="b1"
+            />
+            <ImageWidget
+              source={{
+                uri: getWeatherIcon(selectedWeather.weather[0].icon),
+              }}
+              width={48}
+              height={48}
+            />
+          </View>
+        </View>
+        <View style={HomeStyle.wrapperChartSelectedWeatherHeader}></View>
+        <ListItem
+          title="Precipitation"
+          showIconRight={false}
+          infoRight={selectedWeather?.pop}
+        />
+        <ListItem
+          title="Propability of Precipitation"
+          showIconRight={false}
+          infoRight={selectedWeather?.pop}
+        />
+        <ListItem
+          title="Wind"
+          showIconRight={false}
+          infoRight={`${selectedWeather?.wind.speed}m/s`}
+        />
+        <ListItem
+          title="Pressure"
+          showIconRight={false}
+          infoRight={`${selectedWeather?.main.pressure}inHG`}
+        />
+        <ListItem
+          title="Humidity"
+          showIconRight={false}
+          infoRight={`${selectedWeather?.main.humidity}%`}
+        />
+        <ListItem
+          title="Uv Index"
+          showIconRight={false}
+          infoRight={selectedWeather?.pop}
+        />
       </View>
     );
   };
@@ -181,7 +255,7 @@ const HomeScreen = ({}) => {
 
       <View style={HomeStyle.wrapperInfoForecast}>
         <FlatList
-          data={formatForecastData()}
+          data={indexselectedWeather == -1 ? formatForecastData() : []}
           ListHeaderComponent={HeaderComponent}
           showsVerticalScrollIndicator={false}
           renderItem={({item, index}) => {
@@ -191,7 +265,12 @@ const HomeScreen = ({}) => {
                 title={formatDate(item.date, 'ddd MMM DD')}
                 infoRight={`${item.main.humidity} / ${item.main.temp}°F`}
                 icon={item.weather[0].icon}
-                onPress={() => {}}
+                customStyleContainer={{
+                  paddingVertical: 8,
+                }}
+                onPress={() => {
+                  setindexselectedWeather(index);
+                }}
               />
             );
           }}

@@ -6,6 +6,7 @@ import {
   SIZE_BORDER_RADIUS,
   SIZE_PADDING,
 } from '../../resources/theme';
+import {widthByScreen} from '../../utils/dimensions';
 
 const HomeStyle = StyleSheet.create({
   container: {
@@ -66,14 +67,30 @@ const HomeStyle = StyleSheet.create({
   },
   wrapperListDate: {
     width: '100%',
-    paddingLeft: SIZE_PADDING * 0.5,
     paddingVertical: SIZE_PADDING,
     paddingBottom: SIZE_PADDING * 0.5,
     borderBottomColor: COLOR_BORDER,
     borderBottomWidth: 1,
-    flexDirection:'row',
-    justifyContent:'space-between',
-    alignItems:'center'
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  wrapperSelectedWeather: {
+    paddingHorizontal: SIZE_PADDING * 0.5,
+    width: '100%',
+  },
+  wrapperSelectedWeatherHeader: {
+    paddingVertical: SIZE_PADDING,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  wrapperChartSelectedWeatherHeader: {
+    marginVertical: SIZE_PADDING * 0.5,
+    // width: widthByScreen(100),
+    height: 100,
+    backgroundColor: COLOR_GREY,
+    borderRadius: SIZE_BORDER_RADIUS,
   },
 });
 

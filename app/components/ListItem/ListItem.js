@@ -10,25 +10,34 @@ export const ListItem = ({
   infoRight = '',
   icon = '',
   customRight,
+  showIconRight = true,
   onPress = () => {},
+  customStyleContainer={},
 }) => {
   return (
-    <TouchableOpacity onPress={onPress} style={ListItemStyle.container}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={[ListItemStyle.container, customStyleContainer]}>
       <TextWidget label={title} weight="regular" size="b1" />
       {customRight || (
         <View style={ListItemStyle.wrapperRight}>
           <TextWidget label={infoRight} weight="regular" size="b1" />
-          <ImageWidget
-            source={{
-              uri: getWeatherIcon(icon),
-            }}
-            width={48}
-            height={48}
-          />
-          <FontAwesome5
-            name="chevron-right"
-            size={22}
+          {icon != '' ? (
+            <ImageWidget
+              source={{
+                uri: getWeatherIcon(icon),
+              }}
+              width={48}
+              height={48}
             />
+          ) : (
+            <></>
+          )}
+          {showIconRight ? (
+            <FontAwesome5 name="chevron-right" size={22} />
+          ) : (
+            <></>
+          )}
         </View>
       )}
     </TouchableOpacity>

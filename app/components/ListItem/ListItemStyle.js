@@ -4,7 +4,8 @@ import {widthByScreen} from '../../utils/dimensions';
 
 const ListItemStyle = StyleSheet.create({
   container: {
-    padding: SIZE_PADDING * 0.5,
+    paddingHorizontal: SIZE_PADDING * 0.5,
+    paddingVertical: SIZE_PADDING,
     width: '100%',
     backgroundColor: COLOR_WHITE,
     flexDirection: 'row',
@@ -12,7 +13,6 @@ const ListItemStyle = StyleSheet.create({
     alignItems: 'center',
     borderBottomColor: COLOR_BORDER,
     borderBottomWidth: 1,
-    
   },
   wrapperRight: {
     flexDirection: 'row',

@@ -11,7 +11,7 @@ const HeaderStyle = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     borderBottomColor: COLOR_BORDER,
-    borderBottomWidth: 4,
+    borderBottomWidth: 1,
   },
   containerLeft: {
     width: widthByScreen(80),
