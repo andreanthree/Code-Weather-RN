@@ -19,6 +19,8 @@ export const TextWidget = ({
 }) => {
   const generateSize = () => {
     switch (size) {
+      case 't1':
+        return 48;
       case 'h1':
         return 36;
       case 'h2':

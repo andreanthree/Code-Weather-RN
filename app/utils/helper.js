@@ -3,9 +3,6 @@
 import moment from 'moment';
 
 moment().locale('id');
-import _ from 'lodash';
-import {REGEX} from '../constants';
-import {COLOR_RED} from '../constants/color';
 
 export const isEmpty = value => {
   return value === null || value === undefined || String(value).trim() === '';
@@ -87,10 +84,6 @@ export const getLastCharacters = (value = '', numberOfCharacters = 0) => {
  * @param email
  * @return {boolean}
  */
-export const isEmail = email =>
-  /* eslint-disable no-useless-escape */
-  REGEX.regExToCheckEmail.test(String(email).toLowerCase());
-
 /**
  * Return empty function
  */
@@ -185,3 +178,15 @@ export const fixedDecimal = (number, point = 2) => {
     return error;
   }
 };
+
+export const formatDate = (date, format = 'DD MMM YYYY') => {
+  try {
+    return moment(date).format(format).toString();
+  } catch (error) {
+    return date;
+  }
+};
+
+export const getWeatherIcon = (icon) => {
+  return `http://openweathermap.org/img/wn/${icon}@2x.png`;
+}
