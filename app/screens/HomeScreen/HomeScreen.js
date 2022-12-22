@@ -16,7 +16,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import ListItemStyle from '../../components/ListItem/ListItemStyle';
 import {connect} from 'react-redux';
 
-const HomeScreen = ({daily, forecast, config}) => {
+const HomeScreen = ({daily, forecast, config, navigation}) => {
   const [indexselectedWeather, setindexselectedWeather] = useState(0);
   const currentTemperature = config.temperature;
   const {data, loading: loadingDaily} = daily;
@@ -32,7 +32,7 @@ const HomeScreen = ({daily, forecast, config}) => {
   );
   const formatForecastData = () => {
     let data = [];
-    forecast.data.forEach((element) => {
+    forecast.data.forEach(element => {
       let dtConvert = new Date(element.dt * 1000);
       let currentDate = formatDate(dtConvert, 'ddd MMM DD');
       let findIndex = data.findIndex(el => el['dateFormat'] == currentDate);
@@ -68,7 +68,7 @@ const HomeScreen = ({daily, forecast, config}) => {
             <View>
               <TextWidget
                 label={`${convertTemperature(
-                  data.main.temp,
+                  data?.main?.temp,
                   currentTemperature,
                 )}°${currentTemperature}`}
                 weight="medium"
@@ -83,7 +83,7 @@ const HomeScreen = ({daily, forecast, config}) => {
           </View>
           <TextWidget
             label={`${convertTemperature(
-              data.main.temp,
+              data?.main?.temp,
               currentTemperature,
             )}°${currentTemperature}`}
             weight="light"
@@ -287,8 +287,16 @@ const HomeScreen = ({daily, forecast, config}) => {
     <View style={HomeStyle.container}>
       <Header
         titleCustom={
-          <TouchableOpacity>
-            <TextWidget label={data.name} weight="medium" />
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('SearchCityScreen');
+            }}>
+            <TextWidget
+              label={
+                config.locationName != '' ? config.locationName : data.name
+              }
+              weight="medium"
+            />
           </TouchableOpacity>
         }
       />

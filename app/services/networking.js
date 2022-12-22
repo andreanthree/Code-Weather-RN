@@ -5,6 +5,7 @@ import _ from 'lodash';
 export const config = {
   baseUrl: 'https://api.openweathermap.org/',
   baseUrlIcon: 'http://openweathermap.org/img/wn/',
+  baseFlag: 'https://openweathermap.org/images/flags/',
   appid: 'e3ac61c2fcc01c57f1b5b97dec6e65f9',
 };
 const Authorization = {};

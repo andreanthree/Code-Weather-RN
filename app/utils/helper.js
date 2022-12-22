@@ -191,6 +191,9 @@ export const formatDate = (date, format = 'DD MMM YYYY') => {
 export const getWeatherIcon = icon => {
   return `${config.baseUrlIcon}${icon}@2x.png`;
 };
+export const getFlagIcon = county => {
+  return `${config.baseFlag}${county}.png`.toLowerCase();
+};
 
 export const convertTemperature = (value, nextTemperature) => {
   try {

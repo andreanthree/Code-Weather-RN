@@ -18,7 +18,7 @@ const initialState = {
     temperature: 'C',
     latitude: -6.2293867,
     longitude: 106.6894304,
-    locationName: 'Jakarta',
+    locationName: '',
   },
 };
 export const UPDATE_DATA_DAILY = 'UPDATE_DATA_DAILY';
