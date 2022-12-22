@@ -5,17 +5,22 @@ import HomeStyle from './HomeStyle';
 import {TextWidget} from '../../components/TextWidget';
 import {ImageWidget} from '../../components/ImageWidget';
 import {COLOR_BLACK, COLOR_GREY, COLOR_WHITE} from '../../resources/theme';
-import {dataDaily, dataForecast} from '../../constants/static';
-import {formatDate, getWeatherIcon} from '../../utils/helper';
+import {
+  convertTemperature,
+  formatDate,
+  getWeatherIcon,
+} from '../../utils/helper';
 import {ListItem} from '../../components/ListItem/ListItem';
 import {widthByScreen} from '../../utils/dimensions';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import ListItemStyle from '../../components/ListItem/ListItemStyle';
+import {connect} from 'react-redux';
 
-const HomeScreen = ({}) => {
+const HomeScreen = ({daily, forecast, config}) => {
   const [indexselectedWeather, setindexselectedWeather] = useState(0);
-  const data = dataDaily;
-  let weatherInfo = data.weather[0] || {};
+  const currentTemperature = config.temperature;
+  const {data, loading: loadingDaily} = daily;
+  let weatherInfo = loadingDaily ? {} : data.weather[0];
 
   const renderInfoWind = (title, value) => (
     <TextWidget
@@ -27,11 +32,10 @@ const HomeScreen = ({}) => {
   );
   const formatForecastData = () => {
     let data = [];
-    dataForecast.list.forEach((element, index) => {
+    forecast.data.forEach((element) => {
       let dtConvert = new Date(element.dt * 1000);
       let currentDate = formatDate(dtConvert, 'ddd MMM DD');
       let findIndex = data.findIndex(el => el['dateFormat'] == currentDate);
-      console.log(findIndex);
       if (findIndex == -1) {
         data.push({
           ...element,
@@ -62,7 +66,14 @@ const HomeScreen = ({}) => {
               height={48}
             />
             <View>
-              <TextWidget label={weatherInfo.main} weight="medium" size="b2" />
+              <TextWidget
+                label={`${convertTemperature(
+                  data.main.temp,
+                  currentTemperature,
+                )}°${currentTemperature}`}
+                weight="medium"
+                size="b2"
+              />
               <TextWidget
                 label={weatherInfo.description}
                 weight="light"
@@ -71,14 +82,20 @@ const HomeScreen = ({}) => {
             </View>
           </View>
           <TextWidget
-            label={`${data.main.temp}°F`}
+            label={`${convertTemperature(
+              data.main.temp,
+              currentTemperature,
+            )}°${currentTemperature}`}
             weight="light"
             size="t1"
             color={COLOR_BLACK}
             customStyle={{...HomeStyle.degreeInfo}}
           />
           <TextWidget
-            label={`Feels like ${data.main.feels_like} °F`}
+            label={`Feels like ${convertTemperature(
+              data.main.feels_like,
+              currentTemperature,
+            )} °${currentTemperature}`}
             weight="light"
             size="l1"
           />
@@ -102,15 +119,26 @@ const HomeScreen = ({}) => {
           {renderInfoWind('Dew point', `${data.main.pressure}inHg`)}
         </View>
         <FlatList
-          data={dataForecast.list}
+          data={forecast.data}
           showsHorizontalScrollIndicator={false}
           horizontal
           renderItem={({item, index}) => {
+            let isFirstHour = false;
+            try {
+              if (
+                parseInt(`${formatDate(new Date(item.dt * 1000), 'HH')}`) < 2
+              ) {
+                isFirstHour = true;
+              }
+            } catch (error) {}
             return (
               <View style={HomeStyle.wrapperWeatherInfoIcon}>
                 <TextWidget
-                  label={formatDate(new Date(item.dt * 1000), 'HH:mm')}
-                  weight="regular"
+                  label={formatDate(
+                    new Date(item.dt * 1000),
+                    isFirstHour ? 'MMM DD' : 'HH:mm',
+                  )}
+                  weight={isFirstHour ? 'bold' : 'regular'}
                   size="l1"
                 />
                 <ImageWidget
@@ -122,7 +150,10 @@ const HomeScreen = ({}) => {
                   customStyle={HomeStyle.wrapperWeatherInfoIconSized}
                 />
                 <TextWidget
-                  label={`${item.main.temp}°F`}
+                  label={`${convertTemperature(
+                    item.main.temp,
+                    currentTemperature,
+                  )}°${currentTemperature}`}
                   weight="medium"
                   size="l1"
                 />
@@ -184,7 +215,7 @@ const HomeScreen = ({}) => {
     if (indexselectedWeather == -1) {
       return <></>;
     }
-    const selectedWeather = dataForecast.list[indexselectedWeather];
+    const selectedWeather = forecast.data[indexselectedWeather];
     return (
       <View style={HomeStyle.wrapperSelectedWeather}>
         <View style={HomeStyle.wrapperSelectedWeatherHeader}>
@@ -202,7 +233,10 @@ const HomeScreen = ({}) => {
           </View>
           <View style={ListItemStyle.wrapperRight}>
             <TextWidget
-              label={`${selectedWeather.main.humidity} / ${selectedWeather.main.temp}°F`}
+              label={`${selectedWeather.main.humidity} / ${convertTemperature(
+                selectedWeather.main.temp,
+                currentTemperature,
+              )}°${currentTemperature}`}
               weight="regular"
               size="b1"
             />
@@ -251,7 +285,13 @@ const HomeScreen = ({}) => {
   };
   return (
     <View style={HomeStyle.container}>
-      <Header title={data.name} />
+      <Header
+        titleCustom={
+          <TouchableOpacity>
+            <TextWidget label={data.name} weight="medium" />
+          </TouchableOpacity>
+        }
+      />
 
       <View style={HomeStyle.wrapperInfoForecast}>
         <FlatList
@@ -263,7 +303,10 @@ const HomeScreen = ({}) => {
               <ListItem
                 key={index}
                 title={formatDate(item.date, 'ddd MMM DD')}
-                infoRight={`${item.main.humidity} / ${item.main.temp}°F`}
+                infoRight={`${item.main.humidity} / ${convertTemperature(
+                  item.main.temp,
+                  currentTemperature,
+                )}°${currentTemperature}`}
                 icon={item.weather[0].icon}
                 customStyleContainer={{
                   paddingVertical: 8,
@@ -279,4 +322,13 @@ const HomeScreen = ({}) => {
     </View>
   );
 };
-export default HomeScreen;
+
+export const mapStateToProps = state => ({
+  daily: state.weather.daily,
+  forecast: state.weather.forecast,
+  config: state.weather.config,
+});
+
+export const mapDispatchToProps = dispatch => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

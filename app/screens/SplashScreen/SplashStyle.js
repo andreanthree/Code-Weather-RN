@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import { COLOR_PRIMARY } from '../../resources/theme';
+import {COLOR_PRIMARY, SIZE_PADDING} from '../../resources/theme';
 
 const SplashStyle = StyleSheet.create({
   container: {
@@ -10,6 +10,8 @@ const SplashStyle = StyleSheet.create({
   },
   wrapperText: {
     alignItems: 'center',
+    position: 'absolute',
+    bottom: SIZE_PADDING,
   },
 });
 

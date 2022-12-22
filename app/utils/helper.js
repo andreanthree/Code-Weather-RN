@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/prefer-default-export
 
 import moment from 'moment';
+import { config } from '../services/networking';
 
 moment().locale('id');
 
@@ -187,6 +188,22 @@ export const formatDate = (date, format = 'DD MMM YYYY') => {
   }
 };
 
-export const getWeatherIcon = (icon) => {
-  return `http://openweathermap.org/img/wn/${icon}@2x.png`;
-}
+export const getWeatherIcon = icon => {
+  return `${config.baseUrlIcon}${icon}@2x.png`;
+};
+
+export const convertTemperature = (value, nextTemperature) => {
+  try {
+    let parsingValue = parseInt(value);
+    switch (nextTemperature) {
+      case 'C':
+        return Number(parsingValue - 273.15).toFixed(2);
+      case 'F':
+        return Number((parsingValue * 9) / 5 - 459.67).toFixed(2);
+      default:
+        return value;
+    }
+  } catch (error) {
+    return value;
+  }
+};

@@ -10,11 +10,12 @@ function Route() {
   return (
     <NavigationContainer>
       <Stack.Navigator
+        initialRouteName="SplashScreen"
         screenOptions={{
           headerShown: false,
         }}>
-        <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="SplashScreen" component={SplashScreen} />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

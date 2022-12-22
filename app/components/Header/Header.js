@@ -22,7 +22,7 @@ export const Header = ({
         ) : (
           <></>
         )}
-        <TextWidget label={title} weight="medium" />
+        {titleCustom || <TextWidget label={title} weight="medium" />}
       </View>
       <View style={{}}>
         {customRight || <></>}

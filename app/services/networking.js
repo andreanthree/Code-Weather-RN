@@ -3,7 +3,9 @@ import axios from 'axios';
 import _ from 'lodash';
 
 export const config = {
-  baseUrl: 'https://api.openweathermap.org',
+  baseUrl: 'https://api.openweathermap.org/',
+  baseUrlIcon: 'http://openweathermap.org/img/wn/',
+  appid: 'e3ac61c2fcc01c57f1b5b97dec6e65f9',
 };
 const Authorization = {};
 export const STATUS_CODE = {
@@ -12,17 +14,18 @@ export const STATUS_CODE = {
   NO_CONTENT: 204,
 };
 
-const fetchData = async (url, params, customHeaders) => {
+const fetchData = async (url, params={}, customHeaders={}) => {
   let headers = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
     ...customHeaders,
   };
-  const response = await axios(url, ...params, headers);
-  const json = await response.json();
+  console.log(url);
+  console.log(params);
+  const response = await axios(url, {...params}, headers);
+  console.log(response);
 
-
-  return json;
+  return response;
 };
 
 const get = async (endpoint, params = {}, headers = {}) => {
@@ -30,7 +33,7 @@ const get = async (endpoint, params = {}, headers = {}) => {
     .map(key => `${key}=${params[key]}`)
     .join('&');
   if (queryString.length > 0) {
-    queryString = `?${queryString}`;
+    queryString = `?appid=${config.appid}&${queryString}`;
   }
   const url = `${config.baseUrl}${endpoint}${queryString}`;
   const fetchParams = {
