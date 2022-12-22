@@ -7,7 +7,7 @@ import {ImageWidget} from '../../components/ImageWidget';
 import {COLOR_BLACK} from '../../resources/theme';
 import {getFlagIcon} from '../../utils/helper';
 import {ListItem} from '../../components/ListItem/ListItem';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
@@ -27,7 +27,7 @@ const SearchCityScreen = ({
       <Header
         titleCustom={
           <View style={SearchCityStyle.containerSearch}>
-            <FontAwesome5 name="search" />
+            <MaterialIcons name="search" size={20} />
             <TextInput
               style={SearchCityStyle.inputSearch}
               onSubmitEditing={event => {
@@ -39,10 +39,11 @@ const SearchCityScreen = ({
           </View>
         }
         customRight={
-          <FontAwesome5.Button
+          <MaterialIcons.Button
             backgroundColor="transparent"
-            name="search"
+            name="clear"
             color={COLOR_BLACK}
+            size={22}
             onPress={() => {
               navigation.pop();
             }}

@@ -67,7 +67,8 @@ const HomeStyle = StyleSheet.create({
   },
   wrapperListDate: {
     width: '100%',
-    paddingVertical: SIZE_PADDING,
+    paddingTop: SIZE_PADDING,
+    paddingRight: SIZE_PADDING * 0.5,
     paddingBottom: SIZE_PADDING * 0.5,
     borderBottomColor: COLOR_BORDER,
     borderBottomWidth: 1,
@@ -91,6 +92,10 @@ const HomeStyle = StyleSheet.create({
     height: 100,
     backgroundColor: COLOR_GREY,
     borderRadius: SIZE_BORDER_RADIUS,
+  },
+  wrapperHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });
 

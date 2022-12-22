@@ -4,7 +4,12 @@ import {Header} from '../../components/Header/Header';
 import HomeStyle from './HomeStyle';
 import {TextWidget} from '../../components/TextWidget';
 import {ImageWidget} from '../../components/ImageWidget';
-import {COLOR_BLACK, COLOR_GREY, COLOR_WHITE} from '../../resources/theme';
+import {
+  COLOR_BLACK,
+  COLOR_FONT_PRIMARY,
+  COLOR_GREY,
+  COLOR_WHITE,
+} from '../../resources/theme';
 import {
   convertTemperature,
   formatDate,
@@ -12,7 +17,7 @@ import {
 } from '../../utils/helper';
 import {ListItem} from '../../components/ListItem/ListItem';
 import {widthByScreen} from '../../utils/dimensions';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import ListItemStyle from '../../components/ListItem/ListItemStyle';
 import {connect} from 'react-redux';
 
@@ -198,10 +203,11 @@ const HomeScreen = ({daily, forecast, config, navigation}) => {
               );
             }}
           />
-          <FontAwesome5
-            name="chevron-right"
+          <Ionicons
+            name="list-outline"
             size={22}
             backgroundColor={'transparent'}
+            color={COLOR_BLACK}
             onPress={() => {
               setindexselectedWeather(-1);
             }}
@@ -282,16 +288,24 @@ const HomeScreen = ({daily, forecast, config, navigation}) => {
   return (
     <View style={HomeStyle.container}>
       <Header
+        showLeft={false}
         titleCustom={
           <TouchableOpacity
+            style={HomeStyle.wrapperHeader}
             onPress={() => {
               navigation.navigate('SearchCityScreen');
             }}>
+            <Ionicons name="search" size={18} color={COLOR_FONT_PRIMARY} />
             <TextWidget
-              label={
+              label={`   ${
                 config.locationName != '' ? config.locationName : data.name
-              }
+              }`}
               weight="medium"
+            />
+            <Ionicons
+              name="location-outline"
+              size={18}
+              color={COLOR_FONT_PRIMARY}
             />
           </TouchableOpacity>
         }
