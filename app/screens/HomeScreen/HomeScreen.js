@@ -315,7 +315,9 @@ const HomeScreen = ({daily, forecast, config, navigation}) => {
             size={20}
             color={COLOR_FONT_PRIMARY}
             backgroundColor="transparent"
-            onPress={() => {}}
+            onPress={() => {
+              navigation.navigate('SettingScreen');
+            }}
           />
         }
       />

@@ -20,6 +20,8 @@ const initialState = {
     latitude: -6.2293867,
     longitude: 106.6894304,
     locationName: '',
+    wind:'m/s',
+    pressure:'inHg',
   },
 };
 export const UPDATE_DATA_DAILY = 'UPDATE_DATA_DAILY';
