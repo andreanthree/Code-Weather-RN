@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.zoontek.rnpermissions.RNPermissionsPackage;
+import org.pgsqlite.SQLitePluginPackage;
 
 /**
  * A {@link ReactNativeHost} that helps you load everything needed for the New Architecture, both

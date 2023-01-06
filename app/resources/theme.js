@@ -16,4 +16,6 @@ export const COLOR_FONT_SECONDARY = '#5E6066';
 export const COLOR_WHITE = '#FFFFFF';
 export const COLOR_BLACK = '#000000';
 export const COLOR_BORDER = '#E5E8ED';
+export const COLOR_BORDER_FORM = '#CACCCF';
+export const COLOR_EVENT_ERROR = '#E00228';
 export const COLOR_GREY = '#EFF1F9';

@@ -38,7 +38,7 @@ export const ListItem = ({
             <></>
           )}
           {showIconRight ? (
-            <FontAwesome5 name="chevron-right" size={22} />
+            <FontAwesome5 name="chevron-right" size={18} />
           ) : (
             <></>
           )}

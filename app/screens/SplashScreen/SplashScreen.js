@@ -24,11 +24,15 @@ import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 import Geolocation from '@react-native-community/geolocation';
 import Modal from 'react-native-modal';
 import {Button} from '../../components/Button/Button';
+import storage from '../../utils/storage';
+import storageKey from '../../constants/storageKey';
+import {updateUserData} from '../../redux/actions/userAction';
 const SplashScreen = ({
   loadDaily,
   loadForecast,
   navigation,
   updateConfigData,
+  saveUserData,
 }) => {
   const [modalRequestLocation, setmodalRequestLocation] = useState(false);
   useEffect(() => {
@@ -37,6 +41,7 @@ const SplashScreen = ({
   const loadAllData = async () => {
     await loadDaily();
     await loadForecast();
+    await loadUserData();
     navigation.replace('HomeScreen');
   };
 
@@ -71,14 +76,30 @@ const SplashScreen = ({
     });
   };
   const onGetLocationUser = () => {
-    Geolocation.getCurrentPosition(async info => {
-      if (info.coords) {
-        await updateConfigData(info.coords);
+    Geolocation.getCurrentPosition(
+      async info => {
+        if (info.coords) {
+          await updateConfigData(info.coords);
+          loadAllData();
+        } else {
+          console.log('else');
+          onGetLocationUser();
+        }
+      },
+      async err => {
+        await updateConfigData({
+          latitude: -6.2293867,
+          longitude: 106.6894304,
+        });
         loadAllData();
-      } else {
-        onGetLocationUser();
-      }
-    });
+      },
+    );
+  };
+  const loadUserData = async () => {
+    let getDataUser = await storage.get(storageKey.DATA_USER);
+    if (getDataUser != null) {
+      saveUserData(getDataUser);
+    }
   };
   const renderModalRequestLocation = () => (
     <Modal
@@ -154,6 +175,7 @@ export const mapDispatchToProps = dispatch => ({
   loadDaily: bindActionCreators(getDailyData, dispatch),
   loadForecast: bindActionCreators(getForeCastData, dispatch),
   updateConfigData: bindActionCreators(updateConfigData, dispatch),
+  saveUserData: bindActionCreators(updateUserData, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SplashScreen);

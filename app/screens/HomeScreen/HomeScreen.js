@@ -18,10 +18,11 @@ import {
 import {ListItem} from '../../components/ListItem/ListItem';
 import {widthByScreen} from '../../utils/dimensions';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import ListItemStyle from '../../components/ListItem/ListItemStyle';
 import {connect} from 'react-redux';
 
-const HomeScreen = ({daily, forecast, config, navigation}) => {
+const HomeScreen = ({daily, forecast, config, navigation, user}) => {
   const [indexselectedWeather, setindexselectedWeather] = useState(-1);
   const currentTemperature = config.temperature;
   const {data, loading: loadingDaily} = daily;
@@ -163,53 +164,57 @@ const HomeScreen = ({daily, forecast, config, navigation}) => {
             );
           }}
         />
-        <View style={HomeStyle.wrapperListDate}>
-          <FlatList
-            data={formatForecastData()}
-            showsHorizontalScrollIndicator={false}
-            horizontal
-            style={{
-              width: widthByScreen(80),
-            }}
-            renderItem={({item, index}) => {
-              return (
-                <TouchableOpacity
-                  onPress={() => {
-                    setindexselectedWeather(index);
-                  }}
-                  style={[
-                    HomeStyle.wrapperItemTabDate,
-                    {
-                      backgroundColor:
-                        index == indexselectedWeather
-                          ? COLOR_GREY
-                          : COLOR_WHITE,
-                    },
-                  ]}>
-                  <TextWidget
-                    label={formatDate(item.date, 'ddd')}
-                    weight="regular"
-                    size="b2"
-                  />
-                  <TextWidget
-                    label={formatDate(item.date, 'DD')}
-                    weight="medium"
-                    size="b2"
-                  />
-                </TouchableOpacity>
-              );
-            }}
-          />
-          <Ionicons
-            name="list-outline"
-            size={22}
-            backgroundColor={'transparent'}
-            color={COLOR_BLACK}
-            onPress={() => {
-              setindexselectedWeather(-1);
-            }}
-          />
-        </View>
+        {indexselectedWeather == -1 ? (
+          <></>
+        ) : (
+          <View style={HomeStyle.wrapperListDate}>
+            <FlatList
+              data={formatForecastData()}
+              showsHorizontalScrollIndicator={false}
+              horizontal
+              style={{
+                width: widthByScreen(80),
+              }}
+              renderItem={({item, index}) => {
+                return (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setindexselectedWeather(index);
+                    }}
+                    style={[
+                      HomeStyle.wrapperItemTabDate,
+                      {
+                        backgroundColor:
+                          index == indexselectedWeather
+                            ? COLOR_GREY
+                            : COLOR_WHITE,
+                      },
+                    ]}>
+                    <TextWidget
+                      label={formatDate(item.date, 'ddd')}
+                      weight="regular"
+                      size="b2"
+                    />
+                    <TextWidget
+                      label={formatDate(item.date, 'DD')}
+                      weight="medium"
+                      size="b2"
+                    />
+                  </TouchableOpacity>
+                );
+              }}
+            />
+            <Ionicons
+              name="list-outline"
+              size={22}
+              backgroundColor={'transparent'}
+              color={COLOR_BLACK}
+              onPress={() => {
+                setindexselectedWeather(-1);
+              }}
+            />
+          </View>
+        )}
         {renderViewSelectedWeather()}
       </View>
     );
@@ -307,15 +312,31 @@ const HomeScreen = ({daily, forecast, config, navigation}) => {
           </TouchableOpacity>
         }
         customRight={
-          <Ionicons.Button
-            name="settings-outline"
-            size={20}
-            color={COLOR_FONT_PRIMARY}
-            backgroundColor="transparent"
-            onPress={() => {
-              navigation.navigate('SettingScreen');
-            }}
-          />
+          <View style={HomeStyle.row}>
+            <MaterialCommunityIcons.Button
+              name="account"
+              size={20}
+              color={COLOR_FONT_PRIMARY}
+              backgroundColor="transparent"
+              onPress={() => {
+                if (user.id == '') {
+                  navigation.navigate('LoginScreen');
+                } else {
+                  navigation.navigate('ProfileScreen');
+                }
+              }}
+            />
+            <Ionicons.Button
+              name="settings-outline"
+              size={20}
+              color={COLOR_FONT_PRIMARY}
+              backgroundColor="transparent"
+              style={{paddingHorizontal: 0}}
+              onPress={() => {
+                navigation.navigate('SettingScreen');
+              }}
+            />
+          </View>
         }
       />
 
@@ -353,6 +374,7 @@ export const mapStateToProps = state => ({
   daily: state.weather.daily,
   forecast: state.weather.forecast,
   config: state.weather.config,
+  user: state.user.data,
 });
 
 export const mapDispatchToProps = dispatch => ({});
